@@ -6,9 +6,10 @@ import pandas as pd
 import numpy as np
 @task
 def fetch_data():
+
     minio_credentials = MinIOCredentials(
-    minio_root_user = "minio",
-    minio_root_password = "minio123"
+       minio_root_user = "minio",
+       minio_root_password = "minio123"
     )
 
     s3_bucket = S3Bucket(
