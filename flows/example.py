@@ -11,14 +11,19 @@ def fetch_data():
        minio_root_user = "minio",
        minio_root_password = "minio123"
     )
-
+    s3_client = minio_credentials.get_boto3_session().client(
+       service="s3",
+       endpoint_url="http://10.30.8.228:9001"
+    )
     s3_bucket = S3Bucket(
         bucket_name="test1",  # must exist
         minio_credentials=MinIOCredentials(minio_root_user = "minio", minio_root_password = "minio123"),
         endpoint_url="http://10.30.8.228:9001"
     )
 
-    s3_bucket.download_object_to_path("data.csv", "data.csv")
+    s3_client.download_file(Bucket="test1", key="data.csv", Filename="data.csv")
+
+    #s3_bucket.download_object_to_path("data.csv", "data.csv")
     data = pd.read_csv("data.csv")
     return data
 
