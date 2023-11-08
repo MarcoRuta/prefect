@@ -1,8 +1,9 @@
 from prefect import flow, get_run_logger, tags
-from prefect import flow
+from prefect import task
 from prefect_aws import MinIOCredentials
 from prefect_aws.s3 import S3Bucket
-
+import pandas as pd
+import numpy as np
 @task
 def fetch_data():
     minio_credentials = MinIOCredentials(
@@ -29,4 +30,4 @@ def hello(name: str = "Marvin"):
 
 if __name__ == "__main__":
     with tags("local"):
-	hello()
+        hello()
