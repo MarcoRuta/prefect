@@ -12,7 +12,7 @@ def fetch_data():
        minio_root_password = "minio123"
     )
     s3_client = minio_credentials.get_boto3_session().client(
-       service="s3",
+       service_name="s3",
        endpoint_url="http://10.30.8.228:9001"
     )
     s3_bucket = S3Bucket(
