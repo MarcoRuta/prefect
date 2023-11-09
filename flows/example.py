@@ -40,8 +40,9 @@ def eval_metrics(actual, pred):
     mae = mean_absolute_error(actual, pred)
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
+
 @task
-def train_model(data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5, logger):
+def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
     mlflow.set_tracking_uri("http://10.30.8.228:5000")
     train, test = train_test_split(data)
 
@@ -78,7 +79,7 @@ def hello(name: str = "Train"):
     logger.info(f"Let's, {name}!")
     logger.info(f"minIO data: {data.head(10)}!")
 
-    train_model(data=data, mlflow_experiment_id=1, alpha=0.3, l1_ratio=0.3, logger)
+    train_model(logger=logger, data=data, mlflow_experiment_id=1, alpha=0.3, l1_ratio=0.3)
 if __name__ == "__main__":
     with tags("local"):
         hello()
