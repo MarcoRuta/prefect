@@ -75,6 +75,10 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
 def hello(name: str = "Train"):
     data = fetch_data()
 
+    os.environ["AWS_ACCESS_KEY_ID"] = "minio"
+    os.environ["AWS_SECRET_ACCESS_KEY"] = "minio123"
+    os.environ["MLFLOW_S3_ENDPOINT_URL"] = f"http://10.30.8.228:9000"
+
     logger = get_run_logger()
     logger.info(f"Let's, {name}!")
     logger.info(f"minIO data: {data.head(10)}!")
