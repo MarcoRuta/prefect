@@ -18,7 +18,7 @@ def fetch_data():
     s3_bucket = S3Bucket(
         bucket_name="test1",  # must exist
         minio_credentials=MinIOCredentials(minio_root_user = "minio", minio_root_password = "minio123"),
-        endpoint_url="http://10.30.8.228:9000"
+        endpoint_url="http://10.30.8.228:9000",
         use_ssl=False
     )
 
