@@ -19,6 +19,7 @@ def fetch_data():
         bucket_name="test1",  # must exist
         minio_credentials=MinIOCredentials(minio_root_user = "minio", minio_root_password = "minio123"),
         endpoint_url="http://10.30.8.228:9000"
+        use_ssl=False
     )
 
     s3_resource = minio_credentials.get_boto3_session().resource(
