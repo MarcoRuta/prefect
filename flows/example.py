@@ -41,7 +41,7 @@ def eval_metrics(actual, pred):
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
 @task
-def train_model(data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
+def train_model(data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5, logger):
     mlflow.set_tracking_uri("http://10.30.8.228:5000")
     train, test = train_test_split(data)
 
@@ -57,10 +57,10 @@ def train_model(data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         predicted_qualities = lr.predict(test_x)
         (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
 
-        print("Elasticnet model (alpha=%f, l1_ratio=%f):" % (alpha, l1_ratio))
-        print("  RMSE: %s" % rmse)
-        print("  MAE: %s" % mae)
-        print("  R2: %s" % r2)
+        logger.info("Elasticnet model (alpha=%f, l1_ratio=%f):" % (alpha, l1_ratio))
+        logger.info("  RMSE: %s" % rmse)
+        logger.info("  MAE: %s" % mae)
+        logger.info("  R2: %s" % r2)
 
         mlflow.log_param("alpha", alpha)
         mlflow.log_param("l1_ratio", l1_ratio)
@@ -71,12 +71,14 @@ def train_model(data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         mlflow.sklearn.log_model(lr, "model")
 
 @flow
-def hello(name: str = "Marvin"):
+def hello(name: str = "Train"):
     data = fetch_data()
+
     logger = get_run_logger()
-    logger.info(f"Hello, {name}!")
+    logger.info(f"Let's, {name}!")
     logger.info(f"minIO data: {data.head(10)}!")
 
+    train_model(data=data, mlflow_experiment_id=1, alpha=0.3, l1_ratio=0.3, logger)
 if __name__ == "__main__":
     with tags("local"):
         hello()
