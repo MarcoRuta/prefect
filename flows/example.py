@@ -72,7 +72,7 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         mlflow.sklearn.log_model(lr, "model")
 
 @flow
-def hello(name: str = "Train"):
+def MLbasic(name: str = "Train"):
     data = fetch_data()
 
     os.environ["AWS_ACCESS_KEY_ID"] = "minio"
@@ -86,4 +86,4 @@ def hello(name: str = "Train"):
     train_model(logger=logger, data=data, mlflow_experiment_id=1, alpha=0.3, l1_ratio=0.3)
 if __name__ == "__main__":
     with tags("local"):
-        hello()
+        MLbasic()
