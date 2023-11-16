@@ -52,7 +52,7 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
     train_y = train[["quality"]]
     test_y = test[["quality"]]
 
-    with mlflow.start_run(experiment_id=mlflow_experiment_id,  tags={"mlflow.parentRunId": 'e3041d5c36a54b53a9837fa19df2c355', 'Agent':'002'}):
+    with mlflow.start_run(experiment_id=mlflow_experiment_id):
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
         predicted_qualities = lr.predict(test_x)
