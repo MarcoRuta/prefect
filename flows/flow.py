@@ -43,7 +43,8 @@ def eval_metrics(actual, pred):
 
 @task
 def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
-    mlflow.set_tracking_uri("http://10.30.8.228:5000")
+    #mlflow.set_tracking_uri("http://10.30.8.228:5000")
+    mlflow.set_tracking_uri("http://10.30.8.137:5000", verify=False)
     train, test = train_test_split(data)
 
     # The predicted column is "quality" which is a scalar from [3, 9]
