@@ -1,4 +1,4 @@
-from prefect import flow, get_run_logger, tags
+from prefect import flow, get_run_logger, tags, variables
 from prefect import task
 from prefect_aws import MinIOCredentials
 from prefect_aws.s3 import S3Bucket
@@ -28,8 +28,6 @@ def fetch_data():
        service_name="s3",
        endpoint_url="http://10.30.8.228:9000"
     )
-
-#    s3_client.download_file('test1', 'data.csv', 'data.csv')
     s3_client.download_file(Bucket="test1", Key="data.csv", Filename="data.csv")
     data = pd.read_csv("data.csv")
     return data
@@ -43,8 +41,7 @@ def eval_metrics(actual, pred):
 
 @task
 def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
-    #mlflow.set_tracking_uri("http://10.30.8.228:5000")
-    mlflow.set_tracking_uri("http://10.30.8.137:5000")
+    mlflow.set_tracking_uri(variables.get('mlflow_tracking_uri'))
     train, test = train_test_split(data)
 
     # The predicted column is "quality" which is a scalar from [3, 9]
@@ -73,17 +70,12 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         mlflow.sklearn.log_model(lr, "model")
 
 @flow
-def MLbasic(userdata: str = "Train"):
+def MLtraining(userdata: str = "Train", mlflow_experiment_id: int = 1, alpha: float = 0.3, l1_ratio: float =0.3):
     data = fetch_data()
-
-#    os.environ["AWS_ACCESS_KEY_ID"] = "minio"
-#    os.environ["AWS_SECRET_ACCESS_KEY"] = "minio123"
-#    os.environ["MLFLOW_S3_ENDPOINT_URL"] = f"http://10.30.8.228:9000"
 
     logger = get_run_logger()
     logger.info(f"minIO data: {data.head(10)}!")
 
-    train_model(logger=logger, data=data, mlflow_experiment_id=1, alpha=0.3, l1_ratio=0.3)
+    train_model(logger=logger, data=data, mlflow_experiment_id=mlflow_experiment_id, alpha=alpha, l1_ratio=l1_ratio)
 if __name__ == "__main__":
-    with tags("local"):
-        MLbasic()
+    MLtraining()
