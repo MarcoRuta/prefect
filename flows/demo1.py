@@ -30,6 +30,7 @@ def fetch_data():
     )
     s3_client.download_file(Bucket="test1", Key="data.csv", Filename="data.csv")
     data = pd.read_csv("data.csv")
+    data = data.iloc[: , 1:]
     return data
 
 
