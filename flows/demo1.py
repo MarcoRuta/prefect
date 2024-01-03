@@ -71,7 +71,7 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         mlflow.sklearn.log_model(lr, "model")
 
 @flow
-def demo_pipeline(alpha: float = 0.5, l1_ratio: float = 0.5, mlflow_experiment_id: int):
+def demo_pipeline(mlflow_experiment_id: int, alpha: float = 0.5, l1_ratio: float = 0.5):
     data = fetch_data()
 
     logger = get_run_logger()
