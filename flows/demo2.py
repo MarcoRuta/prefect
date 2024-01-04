@@ -32,8 +32,8 @@ def fetch_data():
        endpoint_url="http://10.30.8.228:9000"
     )
     s3_client.download_file(Bucket="test1", Key="data.csv", Filename="data.csv")
-    data = pd.read_csv("data.csv")
-    data = data.iloc[: , 1:]
+    data = pd.read_csv("winequality-white.csv")
+    # data = data.iloc[: , 1:]
     return data
 
 
@@ -80,17 +80,17 @@ def train_model(logger, data, mlflow_experiment_id, lr):
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
 
-        #mlflow.sklearn.log_model(lr, "model")
+        mlflow.sklearn.log_model(lr, "model")
     # Infer the model signature
-        y_pred = lr.predict(test_x)
-        signature = infer_signature(test_x, y_pred)
+    #    y_pred = lr.predict(test_x)
+    #    signature = infer_signature(test_x, y_pred)
     # Log the sklearn model and register as version 1
-        mlflow.sklearn.log_model(
-            sk_model=lr,
-            artifact_path="sklearn-model",
-            signature=signature,
-            registered_model_name="demo-linear-regression-model",
-        )
+    #    mlflow.sklearn.log_model(
+    #        sk_model=lr,
+    #        artifact_path="sklearn-model",
+    #        signature=signature,
+    #        registered_model_name="demo-linear-regression-model",
+    #    )
     
 
 @flow
