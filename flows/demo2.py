@@ -52,7 +52,7 @@ def get_model(model_name):
     sk_model = mlflow.sklearn.load_model(model_path)
     return sk_model
 @task
-def train_model(logger, data, mlflow_experiment_id, model_name):
+def train_model(logger, data, mlflow_experiment_id, lr):
     mlflow.set_tracking_uri(variables.get('mlflow_tracking_uri'))
     train, test = train_test_split(data)
 
@@ -63,7 +63,7 @@ def train_model(logger, data, mlflow_experiment_id, model_name):
     test_y = test[["quality"]]
 
     with mlflow.start_run(experiment_id=mlflow_experiment_id):
-        lr = get_model(model_name)
+        
         params = lr.get_params()
         lr.fit(train_x, train_y)
         predicted_qualities = lr.predict(test_x)
@@ -99,7 +99,7 @@ def demo_pipeline2(mlflow_experiment_id: int, model_name: str):
 
     logger = get_run_logger()
     logger.info(f"minIO data: {data.head(10)}!")
-
-    train_model(logger=logger, data=data, mlflow_experiment_id=mlflow_experiment_id, model_name=model_name)
+    lr = get_model(model_name)
+    train_model(logger=logger, data=data, mlflow_experiment_id=mlflow_experiment_id, lr=lr)
 if __name__ == "__main__":
     demo_pipeline2()
