@@ -84,7 +84,7 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
     
 
 @flow
-def demo_pipeline(mlflow_experiment_id: int, alpha: float = 0.5, l1_ratio: float = 0.5):
+def demo_pipeline1(mlflow_experiment_id: int, alpha: float = 0.5, l1_ratio: float = 0.5):
     data = fetch_data()
 
     logger = get_run_logger()
@@ -92,4 +92,4 @@ def demo_pipeline(mlflow_experiment_id: int, alpha: float = 0.5, l1_ratio: float
 
     train_model(logger=logger, data=data, mlflow_experiment_id=mlflow_experiment_id, alpha=alpha, l1_ratio=l1_ratio)
 if __name__ == "__main__":
-    demo_pipeline()
+    demo_pipeline1()
