@@ -47,7 +47,8 @@ def eval_metrics(actual, pred):
 def get_model(model_name):
     mlflow.set_tracking_uri(variables.get('mlflow_tracking_uri'))
     client = MlflowClient()
-    model_metadata = client.get_latest_versions(model_name, stages=["None"])
+    #model_metadata = client.get_latest_versions(model_name, stages=["None"])
+    model_metadata = client.get_latest_versions(model_name)
     latest_model_version = model_metadata[0].version
     model_path = "models:/"+model_name+"/"+str(latest_model_version)
     sk_model = mlflow.sklearn.load_model(model_path)
