@@ -77,12 +77,12 @@ def train_model(logger, data, mlflow_experiment_id, alpha=0.5, l1_ratio=0.5):
         signature = infer_signature(test_x, y_pred)
         logger.info("  sign: %s" % signature )
     # Log the sklearn model and register as version 1
-        #mlflow.sklearn.log_model(
-            #sk_model=lr,
-            #artifact_path="sklearn-model",
-            #signature=signature,
-            #registered_model_name="demo-linear-regression-model",
-        #)
+        mlflow.sklearn.log_model(
+            sk_model=lr,
+            artifact_path="sklearn-model",
+            signature=signature,
+            registered_model_name="demo-linear-regression-model",
+        )
     
 
 @flow
