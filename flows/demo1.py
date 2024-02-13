@@ -28,7 +28,7 @@ def fetch_data():
     )
     s3_client = minio_credentials.get_boto3_session().client(
        service_name="s3",
-       endpoint_url="http://10.30.8.228:9000"
+       endpoint_url="http://10.30.8.137:9000"
     )
 
     s3_client.download_file(Bucket="test1", Key="winequality-white.csv", Filename="winequality-white.csv")
